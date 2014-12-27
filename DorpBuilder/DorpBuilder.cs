@@ -18,6 +18,7 @@ namespace DorpBuilder
         float rotation = 0.0f;
         string text = "Hello world!";
         Vector2 middle;
+        Vector2 location;
 
         public DorpBuilder()
             : base()
@@ -88,6 +89,8 @@ namespace DorpBuilder
                 rotation -= 0.1f;
             }
 
+            location = new Vector2(mouseState.X, mouseState.Y);
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -106,8 +109,8 @@ namespace DorpBuilder
             
             
 
-            spriteBatch.Draw(image, new Vector2(0, 0), Color.White);
-            spriteBatch.DrawString(font, text, new Vector2(x, 150), Color.Black,rotation,middle,1f,SpriteEffects.None,1f);
+            spriteBatch.Draw(image, new Vector2(location.X-image.Width/2, location.Y-image.Height/2), Color.White);
+            spriteBatch.DrawString(font, text, new Vector2(x, 150), Color.Black,1f,middle,1f,SpriteEffects.None,1f);
             spriteBatch.DrawString(font, rotation + " f", new Vector2(250, 250), Color.Chocolate);
 
             
