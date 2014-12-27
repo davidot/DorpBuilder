@@ -15,6 +15,9 @@ namespace DorpBuilder
         Texture2D image;
         SpriteFont font;
         int x = 0;
+        float rotation = 0.0f;
+        string text = "Hello world!";
+        Vector2 middle;
 
         public DorpBuilder()
             : base()
@@ -46,10 +49,12 @@ namespace DorpBuilder
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-
+            
 
             image =  Content.Load<Texture2D>("image/cityhall");
             font = Content.Load<SpriteFont>("DorpBuilderFont");
+            Vector2 size = font.MeasureString(text);
+            middle = new Vector2(size.X / 2, size.Y / 2);
         }
 
         /// <summary>
@@ -76,7 +81,11 @@ namespace DorpBuilder
 
             if (keyState.IsKeyDown(Keys.Right))
             {
-                x += 4;
+                rotation += 0.1f;
+            }
+            if (keyState.IsKeyDown(Keys.Left))
+            {
+                rotation -= 0.1f;
             }
 
             // TODO: Add your update logic here
@@ -94,11 +103,14 @@ namespace DorpBuilder
             
             spriteBatch.Begin();
 
-
+            
+            
 
             spriteBatch.Draw(image, new Vector2(0, 0), Color.White);
-            spriteBatch.DrawString(font, "Hello", new Vector2(x, 150), Color.Black);
+            spriteBatch.DrawString(font, text, new Vector2(x, 150), Color.Black,rotation,middle,1f,SpriteEffects.None,1f);
+            spriteBatch.DrawString(font, rotation + " f", new Vector2(250, 250), Color.Chocolate);
 
+            
 
             spriteBatch.End();
             base.Draw(gameTime);
