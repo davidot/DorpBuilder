@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace DorpBuilder
 {
@@ -18,7 +19,8 @@ namespace DorpBuilder
         float rotation = 0.0f;
         string text = "Hello world!";
         Vector2 middle;
-        Vector2 location;
+        Vector2 mouseLocation;
+        List<Vector2> buildingLocation = new List<Vector2>();
 
         public DorpBuilder()
             : base()
@@ -89,7 +91,12 @@ namespace DorpBuilder
                 rotation -= 0.1f;
             }
 
-            location = new Vector2(mouseState.X, mouseState.Y);
+            mouseLocation = new Vector2(mouseState.X, mouseState.Y);
+
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                buildingLocation.Add(new Vector2(mouseLocation.X,mouseLocation.Y));
+            }
 
             // TODO: Add your update logic here
 
@@ -106,10 +113,16 @@ namespace DorpBuilder
             
             spriteBatch.Begin();
 
-            
+            foreach (Vector2 loc in buildingLocation)
+            {
+                spriteBatch.Draw(image, new Vector2(loc.X - image.Width / 2, loc.Y - image.Height / 2), Color.White);
+            }
             
 
-            spriteBatch.Draw(image, new Vector2(location.X-image.Width/2, location.Y-image.Height/2), Color.White);
+            spriteBatch.Draw(image, new Vector2(mouseLocation.X-image.Width/2, mouseLocation.Y-image.Height/2), Color.White);
+
+            
+
             spriteBatch.DrawString(font, text, new Vector2(x, 150), Color.Black,1f,middle,1f,SpriteEffects.None,1f);
             spriteBatch.DrawString(font, rotation + " f", new Vector2(250, 250), Color.Chocolate);
 
