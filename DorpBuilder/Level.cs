@@ -25,7 +25,7 @@ namespace DorpBuilder
             get { return this._Height; }
         }
 
-        ushort[,] terrains;
+        int[][,] terrains;
 
 
         public Level(int width, int height)
@@ -33,8 +33,15 @@ namespace DorpBuilder
             this._Width = width;
             this._Height = height;
 
-            terrains = new ushort[width, height];
+            terrains = new int[2][,];
+            for (int i = 0; i < terrains.Length; i++)
+            {
+                terrains[i] = new int[width, height];
+            }
         }
+
+
+
 
     }
 }
