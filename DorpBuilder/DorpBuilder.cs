@@ -10,6 +10,11 @@ namespace DorpBuilder
     /// </summary>
     public class DorpBuilder : Game
     {
+
+        public const int DefaultWidth = 1000;
+
+        public const int DefaultHeight = DefaultWidth / 16 * 9;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -21,6 +26,7 @@ namespace DorpBuilder
         Vector2 middle;
         Vector2 mouseLocation;
         List<Vector2> buildingLocation = new List<Vector2>();
+        double time = 0;
 
         public DorpBuilder()
             : base()
@@ -28,6 +34,10 @@ namespace DorpBuilder
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
+            this.Window.Title = "Dorp builder";
+            this.Window.AllowUserResizing = true;
+            graphics.PreferredBackBufferWidth = DefaultWidth;
+            graphics.PreferredBackBufferHeight = DefaultHeight;
         }
 
         /// <summary>
@@ -91,6 +101,7 @@ namespace DorpBuilder
                 rotation -= 0.1f;
             }
 
+            time = gameTime.ElapsedGameTime.TotalMilliseconds;
             mouseLocation = new Vector2(mouseState.X, mouseState.Y);
 
             if (mouseState.LeftButton == ButtonState.Pressed)
@@ -117,15 +128,13 @@ namespace DorpBuilder
             {
                 spriteBatch.Draw(image, new Vector2(loc.X - image.Width / 2, loc.Y - image.Height / 2), Color.White);
             }
-            
 
             spriteBatch.Draw(image, new Vector2(mouseLocation.X-image.Width/2, mouseLocation.Y-image.Height/2), Color.White);
-
             
-
             spriteBatch.DrawString(font, text, new Vector2(x, 150), Color.Black,1f,middle,1f,SpriteEffects.None,1f);
             spriteBatch.DrawString(font, rotation + " f", new Vector2(250, 250), Color.Chocolate);
-
+            spriteBatch.DrawString(font, gameTime.ElapsedGameTime.TotalMilliseconds + "", new Vector2(300, 300), Color.DarkMagenta);
+            spriteBatch.DrawString(font, time + "", new Vector2(400, 300), Color.DarkMagenta);
             
 
             spriteBatch.End();
