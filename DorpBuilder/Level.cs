@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DorpBuilder;
 
 namespace DorpBuilder
 {
-    class Level
+    public class Level
     {
 
         private int _Width;
@@ -24,11 +25,15 @@ namespace DorpBuilder
             get { return this._Height; }
         }
 
+        ushort[,] terrains;
+
 
         public Level(int width, int height)
         {
             this._Width = width;
             this._Height = height;
+
+            terrains = new ushort[width, height];
         }
 
     }

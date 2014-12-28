@@ -33,11 +33,13 @@ namespace DorpBuilder
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
+            graphics.PreferredBackBufferWidth = DefaultWidth;
+            graphics.PreferredBackBufferHeight = DefaultHeight;
+
             this.IsMouseVisible = true;
             this.Window.Title = "Dorp builder";
             this.Window.AllowUserResizing = true;
-            graphics.PreferredBackBufferWidth = DefaultWidth;
-            graphics.PreferredBackBufferHeight = DefaultHeight;
         }
 
         /// <summary>
