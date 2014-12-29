@@ -38,8 +38,12 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DorpBuilder\DorpBuilder.cs" />
-    <Compile Include="DorpBuilder\Level.cs" />
+    <Compile Include="Base\InputHandler.cs" />
+    <Compile Include="DorpBuilder.cs" />
+    <Compile Include="Level\DefualtTerrain.cs" />
+    <Compile Include="Level\Level.cs" />
+    <Compile Include="Base\Size.cs" />
+    <Compile Include="Level\Terrain.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

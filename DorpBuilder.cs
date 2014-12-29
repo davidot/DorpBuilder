@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DorpBuilder.Base;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -27,6 +28,9 @@ namespace DorpBuilder
         Vector2 mouseLocation;
         List<Vector2> buildingLocation = new List<Vector2>();
         double time = 0;
+        Level.Level level;
+
+        InputHandler input;
 
         public DorpBuilder()
             : base()
@@ -51,6 +55,9 @@ namespace DorpBuilder
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            input = new InputHandler(this);
+
             base.Initialize();
         }
 
@@ -70,6 +77,7 @@ namespace DorpBuilder
             font = Content.Load<SpriteFont>("DorpBuilderFont");
             Vector2 size = font.MeasureString(text);
             middle = new Vector2(size.X / 2, size.Y / 2);
+            level = new Level.Level(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight);
         }
 
         /// <summary>
@@ -126,18 +134,20 @@ namespace DorpBuilder
             
             spriteBatch.Begin();
 
-            foreach (Vector2 loc in buildingLocation)
-            {
-                spriteBatch.Draw(image, new Vector2(loc.X - image.Width / 2, loc.Y - image.Height / 2), Color.White);
-            }
+            Size currentSize = new Size(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
 
-            spriteBatch.Draw(image, new Vector2(mouseLocation.X-image.Width/2, mouseLocation.Y-image.Height/2), Color.White);
+            //foreach (Vector2 loc in buildingLocation)
+            //{
+                //spriteBatch.Draw(image, new Vector2(loc.X - image.Width / 2, loc.Y - image.Height / 2), Color.White);
+            //}
+
+            //spriteBatch.Draw(image, new Vector2(mouseLocation.X-image.Width/2, mouseLocation.Y-image.Height/2), Color.White);
             
-            spriteBatch.DrawString(font, text, new Vector2(x, 150), Color.Black,1f,middle,1f,SpriteEffects.None,1f);
-            spriteBatch.DrawString(font, rotation + " f", new Vector2(250, 250), Color.Chocolate);
-            spriteBatch.DrawString(font, gameTime.ElapsedGameTime.TotalMilliseconds + "", new Vector2(300, 300), Color.DarkMagenta);
-            spriteBatch.DrawString(font, time + "", new Vector2(400, 300), Color.DarkMagenta);
-            
+            //spriteBatch.DrawString(font, text, new Vector2(x, 150), Color.Black,1f,middle,1f,SpriteEffects.None,1f);
+            //spriteBatch.DrawString(font, rotation + " f", new Vector2(250, 250), Color.Chocolate);
+            //spriteBatch.DrawString(font, gameTime.ElapsedGameTime.TotalMilliseconds + "", new Vector2(300, 300), Color.DarkMagenta);
+            //spriteBatch.DrawString(font, time + "", new Vector2(500, 300), Color.DarkMagenta);
+            level.Render(spriteBatch,currentSize);
 
             spriteBatch.End();
             base.Draw(gameTime);
