@@ -11,14 +11,14 @@ namespace DorpBuilder.Base
         {
             get;
 
-            set;
+            private set;
         }
 
         public int Height
         {
             get;
 
-            set;
+            private set;
         }
 
         public Size(int width, int height)

@@ -40,6 +40,8 @@
   <ItemGroup>
     <Compile Include="Base\InputHandler.cs" />
     <Compile Include="DorpBuilder.cs" />
+    <Compile Include="Level\Building.cs" />
+    <Compile Include="Level\BuildingInstance.cs" />
     <Compile Include="Level\DefualtTerrain.cs" />
     <Compile Include="Level\Level.cs" />
     <Compile Include="Base\Size.cs" />

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DorpBuilder.Base
 {
-    class InputHandler
+    public class InputHandler
     {
         private DorpBuilder game;
 
@@ -101,7 +101,7 @@ namespace DorpBuilder.Base
         {
             return newScrollWheel - oldScrollWheel;
         }
-        
+
 
     }
 }

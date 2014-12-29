@@ -34,7 +34,7 @@ namespace DorpBuilder.Level
             }
             _init = true;
             _nullTerrain = new DefualtTerrain(0,Color.Black);
-            _dirt = new DefualtTerrain(1,new Color[]{Color.Brown,Color.RosyBrown});
+            _dirt = new DefualtTerrain(1, new Color[] { Color.Brown, Color.RosyBrown, Color.SaddleBrown });
         }
 
 
@@ -51,6 +51,7 @@ namespace DorpBuilder.Level
                 throw new InvalidOperationException("Error already have a tile with this id");
             }
             this._id = id;
+            terrains.Add(id,this);
         }
 
         public abstract Color GetColor(int data);

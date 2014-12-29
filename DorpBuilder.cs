@@ -19,15 +19,7 @@ namespace DorpBuilder
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Texture2D image;
         SpriteFont font;
-        int x = 0;
-        float rotation = 0.0f;
-        string text = "Hello world!";
-        Vector2 middle;
-        Vector2 mouseLocation;
-        List<Vector2> buildingLocation = new List<Vector2>();
-        double time = 0;
         Level.Level level;
 
         InputHandler input;
@@ -57,10 +49,12 @@ namespace DorpBuilder
             // TODO: Add your initialization logic here
 
             input = new InputHandler(this);
+            
+            Level.Terrain.Init();
 
             base.Initialize();
         }
-
+        
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -71,12 +65,7 @@ namespace DorpBuilder
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            
-
-            image =  Content.Load<Texture2D>("image/cityhall");
             font = Content.Load<SpriteFont>("DorpBuilderFont");
-            Vector2 size = font.MeasureString(text);
-            middle = new Vector2(size.X / 2, size.Y / 2);
             level = new Level.Level(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight);
         }
 
@@ -99,25 +88,9 @@ namespace DorpBuilder
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
-            KeyboardState keyState = Keyboard.GetState();
-            MouseState mouseState = Mouse.GetState();
+            input.Update();
 
-            if (keyState.IsKeyDown(Keys.Right))
-            {
-                rotation += 0.1f;
-            }
-            if (keyState.IsKeyDown(Keys.Left))
-            {
-                rotation -= 0.1f;
-            }
-
-            time = gameTime.ElapsedGameTime.TotalMilliseconds;
-            mouseLocation = new Vector2(mouseState.X, mouseState.Y);
-
-            if (mouseState.LeftButton == ButtonState.Pressed)
-            {
-                buildingLocation.Add(new Vector2(mouseLocation.X,mouseLocation.Y));
-            }
+            level.Update(input);
 
             // TODO: Add your update logic here
 
@@ -147,7 +120,7 @@ namespace DorpBuilder
             //spriteBatch.DrawString(font, rotation + " f", new Vector2(250, 250), Color.Chocolate);
             //spriteBatch.DrawString(font, gameTime.ElapsedGameTime.TotalMilliseconds + "", new Vector2(300, 300), Color.DarkMagenta);
             //spriteBatch.DrawString(font, time + "", new Vector2(500, 300), Color.DarkMagenta);
-            level.Render(spriteBatch,currentSize);
+            level.Render(spriteBatch,graphics.GraphicsDevice,currentSize);
 
             spriteBatch.End();
             base.Draw(gameTime);

@@ -10,7 +10,6 @@ namespace DorpBuilder.Level
     {
 
         private Color[] _color;
-        private int p;
 
         public Color[] Color
         {
