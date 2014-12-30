@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using DorpBuilder.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace DorpBuilder.Level
 {
@@ -15,20 +16,20 @@ namespace DorpBuilder.Level
 
         public const int TerrainSize = 4;
 
-        private int _Width;
+        private int _width;
 
         public int Width
         {
-            get { return this._Width; }
+            get { return this._width; }
         }
 
-        private int _Height;
+        private int _height;
 
 		
 		
         public int Height
         {
-            get { return this._Height; }
+            get { return this._height; }
         }
 
         int[][,] terrains;
@@ -41,6 +42,8 @@ namespace DorpBuilder.Level
         int yScroll = 0;
 
         private int _zoom = 1;
+
+        private List<BuildingInstance> buildings = new List<BuildingInstance>();
 
         public int Zoom
         {
@@ -59,8 +62,8 @@ namespace DorpBuilder.Level
 
         public Level(int width, int height)
         {
-            this._Width = width;
-            this._Height = height;
+            this._width = width;
+            this._height = height;
 
             terrains = new int[2][,];
             for (int i = 0; i < terrains.Length; i++)
@@ -74,7 +77,7 @@ namespace DorpBuilder.Level
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    terrains[TerrainIndex][x, y] = (rand.Next(2) == 0 ? Terrain.NullTerrain : Terrain.Dirt).ID;
+                    terrains[TerrainIndex][x, y] = (rand.Next(2) == 0 ? Terrain.Grass : Terrain.Dirt).ID;
                     terrains[DataIndex][x, y] = rand.Next(2);
                 }
             }
@@ -120,11 +123,16 @@ namespace DorpBuilder.Level
             int renderWidth = renderSize.Width / terrainZoomSize;
             int renderHeight = renderSize.Height / terrainZoomSize;
 
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             Texture2D texture = new Texture2D(graphics, 1, 1, false, SurfaceFormat.Color);
             texture.SetData<Color>(new Color[] { Color.White });
 
             int firstXTile = (xScroll) / terrainZoomSize;
             int firstYTile = (yScroll) / terrainZoomSize;
+
+            
 
             for (int x = firstXTile; x < firstXTile + renderWidth; x++)
             {
@@ -133,6 +141,11 @@ namespace DorpBuilder.Level
 
                     spriteBatch.Draw(texture, new Rectangle((x - firstXTile) * terrainZoomSize, (y - firstYTile) * terrainZoomSize, terrainZoomSize, terrainZoomSize), GetColor(x, y));
                 }
+            }
+            sw.Stop();
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\David\Documents\DorpTest1.txt", true))
+            {
+                file.WriteLine("Time spent in render :" + sw.Elapsed);
             }
 
         }
@@ -176,5 +189,17 @@ namespace DorpBuilder.Level
 
 
         }
+
+        public void Add(BuildingInstance b)
+        {
+            buildings.Add(b);
+        }
+
+        public static Level operator <<(Level l,BuildingInstance b) {
+            l.Add(b);
+            return l;
+        }
+
+
     }
 }

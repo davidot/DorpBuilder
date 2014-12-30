@@ -14,14 +14,21 @@ namespace DorpBuilder.Level
 
         private static Terrain _nullTerrain;
         private static Terrain _dirt;
+        private static Terrain _grass;
 
-        public static Terrain NullTerrain {
+        public static Terrain NullTerrain
+        {
             get { return _nullTerrain; }
         }
 
         public static Terrain Dirt
         {
             get { return _dirt; }
+        }
+
+        public static Terrain Grass
+        {
+            get { return _grass; }
         }
 
         private static bool _init = false;
@@ -34,7 +41,8 @@ namespace DorpBuilder.Level
             }
             _init = true;
             _nullTerrain = new DefualtTerrain(0,Color.Black);
-            _dirt = new DefualtTerrain(1, new Color[] { Color.Brown, Color.RosyBrown, Color.SaddleBrown });
+            _dirt = new DefualtTerrain(1, new Color[] { new Color(89, 61, 40), new Color(121, 86, 58) });
+            _grass = new DefualtTerrain(2, new Color[] { Color.Green, new Color(55,119,66) });
         }
 
 
