@@ -25,8 +25,8 @@ namespace DorpBuilder.Level
 
         private int _height;
 
-		
-		
+
+
         public int Height
         {
             get { return this._height; }
@@ -51,12 +51,13 @@ namespace DorpBuilder.Level
 
             set
             {
-                if(value < 1)
+                if (value < 1)
                     throw new InvalidOperationException("Cant set zoom to less than 1");
-                int oldZoom = _zoom;
-                int newZoom = value;
-                xScroll = (xScroll / oldZoom) * newZoom;
-                yScroll = (yScroll / oldZoom) * newZoom;
+                double oldZoom = _zoom;
+                double newZoom = value;
+                _zoom = value;
+                xScroll = (int)((xScroll / oldZoom) * newZoom);
+                yScroll = (int)((yScroll / oldZoom) * newZoom);
             }
         }
 
@@ -115,63 +116,61 @@ namespace DorpBuilder.Level
         }
 
 
-        public void Render(SpriteBatch spriteBatch,GraphicsDevice graphics, Size renderSize)
+        public void Render(SpriteBatch spriteBatch, GraphicsDevice graphics, Size renderSize)
         {
 
             int terrainZoomSize = TerrainSize * Zoom;
 
-            int renderWidth = renderSize.Width / terrainZoomSize;
-            int renderHeight = renderSize.Height / terrainZoomSize;
-
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
 
             Texture2D texture = new Texture2D(graphics, 1, 1, false, SurfaceFormat.Color);
             texture.SetData<Color>(new Color[] { Color.White });
 
+            int xScrollOff = xScroll % terrainZoomSize;
+            int yScrollOff = yScroll % terrainZoomSize;
+
             int firstXTile = (xScroll) / terrainZoomSize;
             int firstYTile = (yScroll) / terrainZoomSize;
 
-            
+            int lastXTile = (xScroll + renderSize.Width) / terrainZoomSize;
+            int lastYTile = (yScroll + renderSize.Height) / terrainZoomSize;
 
-            for (int x = firstXTile; x < firstXTile + renderWidth; x++)
+            //TODO create rectangle form four render points
+
+            Rectangle renderRect = Util.RectangleFromTwoPoints(firstXTile, firstYTile, lastXTile, lastYTile);
+
+            for (int x = firstXTile; x <= lastXTile; x++)
             {
-                for (int y = firstYTile; y < firstYTile + renderHeight; y++)
+                for (int y = firstYTile; y <= lastYTile; y++)
                 {
 
-                    spriteBatch.Draw(texture, new Rectangle((x - firstXTile) * terrainZoomSize, (y - firstYTile) * terrainZoomSize, terrainZoomSize, terrainZoomSize), GetColor(x, y));
+                    spriteBatch.Draw(texture, new Rectangle((x - firstXTile) * terrainZoomSize - xScrollOff, (y - firstYTile) * terrainZoomSize - yScrollOff, terrainZoomSize, terrainZoomSize), GetColor(x, y));
                 }
             }
-            sw.Stop();
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\David\Documents\DorpTest1.txt", true))
-            {
-                file.WriteLine("Time spent in render :" + sw.Elapsed);
-            }
-
         }
+
+        private int scrollChange = 4;
 
         public void Update(InputHandler handler)
         {
             if (handler.IsKeyDown(Keys.Left))
             {
-                xScroll = Math.Max(0, xScroll - 1);
+                xScroll = Math.Max(0, xScroll - scrollChange);
             }
             if (handler.IsKeyDown(Keys.Right))
             {
-                xScroll = Math.Min(Width, xScroll + 1);
+                xScroll = Math.Min(Width * Zoom, xScroll + scrollChange);
             }
 
             if (handler.IsKeyDown(Keys.Up))
             {
-                yScroll = Math.Max(0, yScroll - 1);
+                yScroll = Math.Max(0, yScroll - scrollChange);
             }
             if (handler.IsKeyDown(Keys.Down))
             {
-                yScroll = Math.Min(Height, yScroll + 1);
+                yScroll = Math.Min(Height * Zoom, yScroll + scrollChange);
             }
 
             int scrollWheel = handler.ScrollWheelDifference();
-
             if (scrollWheel > 0)
             {
                 Zoom++;
@@ -185,7 +184,7 @@ namespace DorpBuilder.Level
 
         public void Center(Point point, Size renderSize)
         {
-            
+
 
 
         }
@@ -195,7 +194,8 @@ namespace DorpBuilder.Level
             buildings.Add(b);
         }
 
-        public static Level operator <<(Level l,BuildingInstance b) {
+        public static Level operator +(Level l, BuildingInstance b)
+        {
             l.Add(b);
             return l;
         }

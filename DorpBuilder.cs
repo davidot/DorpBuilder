@@ -25,6 +25,8 @@ namespace DorpBuilder
         InputHandler input;
         Texture2D image;
 
+        float scale = 1.0f;
+
         public DorpBuilder()
             : base()
         {
@@ -66,7 +68,6 @@ namespace DorpBuilder
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            image = Content.Load<Texture2D>("image/cityhallBuild");
             font = Content.Load<SpriteFont>("DorpBuilderFont");
             level = new Level.Level(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight);
         }
@@ -95,7 +96,7 @@ namespace DorpBuilder
             level.Update(input);
 
             // TODO: Add your update logic here
-
+            scale += 0.01f;
             base.Update(gameTime);
         }
 
@@ -124,7 +125,7 @@ namespace DorpBuilder
             //spriteBatch.DrawString(font, time + "", new Vector2(500, 300), Color.DarkMagenta);
             level.Render(spriteBatch,graphics.GraphicsDevice,currentSize);
 
-            spriteBatch.Draw(image, new Vector2(1, 1), new Rectangle(0,0,image.Width,image.Height), Color.Red, 0.0f,new Vector2(0,0),1.0f,SpriteEffects.None,1.0f);
+            spriteBatch.Draw(image, new Vector2(1, 1), new Rectangle(0,0,image.Width,image.Height), Color.Red, 0.0f,new Vector2(0,0),scale,SpriteEffects.None,1.0f);
 
             spriteBatch.End();
             base.Draw(gameTime);

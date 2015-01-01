@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{24F7339A-B1A4-4388-8D51-0676FF2B0416}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DorpBuilder</RootNamespace>
     <AssemblyName>DorpBuilder</AssemblyName>
@@ -37,9 +37,13 @@
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Base\InputHandler.cs" />
     <Compile Include="Base\Rotation.cs" />
+    <Compile Include="Base\Util.cs" />
     <Compile Include="DorpBuilder.cs" />
     <Compile Include="Level\Building.cs" />
     <Compile Include="Level\BuildingInstance.cs" />

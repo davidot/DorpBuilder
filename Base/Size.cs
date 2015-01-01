@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Linq;
 using System.Text;
 
@@ -25,6 +26,12 @@ namespace DorpBuilder.Base
         {
             this.Width = width;
             this.Height = height;
+        }
+
+
+        public Rectangle CreateRectangle(int X, int Y)
+        {
+            return new Rectangle(X, Y, Width, Height);
         }
 
     }
