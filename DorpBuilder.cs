@@ -23,7 +23,6 @@ namespace DorpBuilder
         Level.Level level;
 
         InputHandler input;
-        Texture2D image;
 
         float scale = 1.0f;
 
@@ -125,7 +124,7 @@ namespace DorpBuilder
             //spriteBatch.DrawString(font, time + "", new Vector2(500, 300), Color.DarkMagenta);
             level.Render(spriteBatch,graphics.GraphicsDevice,currentSize);
 
-            spriteBatch.Draw(image, new Vector2(1, 1), new Rectangle(0,0,image.Width,image.Height), Color.Red, 0.0f,new Vector2(0,0),scale,SpriteEffects.None,1.0f);
+            spriteBatch.DrawString(font, "This is a string", new Vector2(10, 10), Color.Black);
 
             spriteBatch.End();
             base.Draw(gameTime);
